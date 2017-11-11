@@ -17,15 +17,14 @@ import java.io.IOException;
 /**
  * Created by Sayed on 11/10/2017.
  */
-class EndPointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+class EndPointsAsyncTask extends AsyncTask<Void, Void, String> {
     private static MyApi myApiService = null;
-    private Context context;
     JokeListener jokeListener;
     public EndPointsAsyncTask(JokeListener jokeListener){
         this.jokeListener = jokeListener;
     }
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected String doInBackground(Void... params) {
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -39,20 +38,19 @@ class EndPointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
                             abstractGoogleClientRequest.setDisableGZipContent(true);
                         }
                     });
-            // end options for devappserver
 
             myApiService = builder.build();
         }
 
-        context = params[0].first;
-        String name = params[0].second;
+
+
 
         try {
 
             return myApiService.getRandomJoke().execute().getData();
         } catch (IOException e) {
             e.printStackTrace();
-            return"";
+            return"there was an error in the backend.";
         }
     }
 

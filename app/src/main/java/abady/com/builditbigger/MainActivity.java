@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements JokeListener{
     }
 
     public void click(View view) {
-        new EndPointsAsyncTask(this).execute(new Pair<Context, String>(this, "Manfred"));
+        new EndPointsAsyncTask(this).execute();
 
     }
 
